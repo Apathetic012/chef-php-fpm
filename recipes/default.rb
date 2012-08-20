@@ -29,30 +29,38 @@ directory node['php-fpm']['conf_dir'] do
   recursive true
 end
 
-directory "#{node['php-fpm']['conf_dir']}/pool" do
+directory "#{node['php-fpm']['conf_dir']}/pool.d" do
   owner "root"
   group "root"
   mode "0755"
   recursive true
 end
 
-template "#{node['php']['conf_dir']}/php.ini" do
+template "#{node['php-fpm']['conf_dir']}/php.ini" do
   source "php.ini.erb"
   owner "root"
   group "root"
   mode "0644"
+  notifies :restart, "service[php5-fpm]"
 end
 
-template "#{node['php']['conf_dir']}/php-fpm.conf" do
+template "#{node['php-fpm']['conf_dir']}/php-fpm.conf" do
   source "php-fpm.conf.erb"
   owner "root"
   group "root"
   mode "0644"
+  notifies :restart, "service[php5-fpm]"
 end
 
-template "#{node['php']['conf_dir']}/pool.d/www.conf" do
+template "#{node['php-fpm']['conf_dir']}/pool.d/www.conf" do
   source "pool.conf.erb"
   owner "root"
   group "root"
   mode "0644"
+  notifies :restart, "service[php5-fpm]"
+end
+
+service "php5-fpm" do
+  supports :restart => true, :reload => true
+  action [ :enable, :start ]
 end

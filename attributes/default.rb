@@ -16,4 +16,4 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-default['php-fpm']['conf_dir'] = '/etc/php5/fpm/'
+default['php-fpm']['conf_dir'] = '/etc/php5/fpm'
