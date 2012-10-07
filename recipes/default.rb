@@ -36,6 +36,13 @@ directory "#{node['php-fpm']['conf_dir']}/pool.d" do
   recursive true
 end
 
+directory "/var/log/php-fpm" do
+  owner "www-data"
+  group "www-data"
+  mode "0755"
+  recursive true
+end
+
 template "#{node['php-fpm']['conf_dir']}/php.ini" do
   source "php.ini.erb"
   owner "root"
